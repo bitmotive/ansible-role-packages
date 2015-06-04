@@ -46,7 +46,6 @@
   yum: name=cyrus-sasl-plain state=present
   tags: 
     - package-config
-    - sendgrid
     - postfix
 
 - name: mutt | set configuration file
