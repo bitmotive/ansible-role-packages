@@ -1,0 +1,57 @@
+---
+# Install and configure all common packages across deployment
+
+- name: yum | install minimum package set
+  yum: name={{item}} state=present
+  with_items:
+    - sudo
+    - man
+    - vim
+    - tmux
+    - bc
+    - python
+    - git
+    - rsync
+    - postfix
+    - mutt
+    - yum-plugin-security
+    - mlocate
+    - htop
+    - jnettop
+    - logwatch
+    - wget
+  tags:
+    - yum
+    - yum-baseline
+
+- name: yum | update all software packages
+  yum: name=* state=latest
+  tags:
+    - yum
+    - slow
+
+- name: yum | setup daily yum security updates
+  copy: src=etc/cron.daily/yumupdate.sh dest=/etc/cron.daily/yumupdate.sh owner=root group=root mode=755
+  tags:
+    - yum
+
+- name: vim | set system-wide vimrc file
+  copy: src=etc/vimrc dest=/etc/vimrc owner=root group=root mode=0544
+  tags: 
+    - package-config
+    - vim
+    - vimrc
+
+- name: postfix | install SASL authentication libraries
+  yum: name=cyrus-sasl-plain state=present
+  tags: 
+    - package-config
+    - sendgrid
+    - postfix
+
+- name: mutt | set configuration file
+  template: src=etc/Muttrc.local.j2 dest=/etc/Muttrc.local owner=root group=root mode=0544
+  tags:
+    - package-config
+    - mutt
+    - muttrc
