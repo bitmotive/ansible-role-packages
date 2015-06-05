@@ -11,12 +11,6 @@ if &t_Co > 2 || has("gui_running")
     set hlsearch
 endif
 
-" When editing a file, always jump to the last cursor position
-autocmd BufReadPost *
-\ if line("'\"") > 0 && line ("'\"") <= line("$") |
-\ exe "normal! g'\"" |
-\ endif
-
 " Prevent the cursor from moving when exiting INSERT mode
 let CursorColumnI = 0 "the cursor column position in INSERT
 autocmd InsertEnter * let CursorColumnI = col('.')
