@@ -1,14 +1,14 @@
 ---
 # Install and configure all common packages across deployment
 
-- name: packages | update all software packages
+- name: Update all software packages
   yum: >
     name=*
     state=latest
   tags:
     - yum-update
 
-- name: packages | install minimum package set
+- name: Install minimum package set
   yum: >
     name={{item}}
     state=latest
@@ -16,14 +16,14 @@
   tags:
     - yum-packages
 
-- name: packages | install yum-plugin-security for auto security updates
+- name: Install yum-plugin-security for auto security updates
   yum: >
     name=yum-plugin-security
     state=latest
   tags:
     - yum-security-updates
 
-- name: packages | configure daily security updates
+- name: Configure daily security updates
   copy: >
     src=etc/cron.daily/yumupdate.sh
     dest=/etc/cron.daily/yumupdate.sh
