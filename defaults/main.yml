@@ -1,0 +1,16 @@
+---
+# defaults file for packages role
+
+# Override this variable with list of packages to be installed
+role_packages_install_list: [
+'sudo',
+'man',
+'vim',
+'tmux',
+'python',
+'mlocate',
+'htop',
+'jnettop',
+'logwatch',
+'wget'
+]

@@ -1,56 +1,34 @@
 ---
 # Install and configure all common packages across deployment
 
-- name: yum | install minimum package set
-  yum: name={{item}} state=present
-  with_items:
-    - sudo
-    - man
-    - vim
-    - tmux
-    - bc
-    - python
-    - git
-    - rsync
-    - postfix
-    - mutt
-    - yum-plugin-security
-    - mlocate
-    - htop
-    - jnettop
-    - logwatch
-    - wget
+- name: packages | update all software packages
+  yum: >
+    name=*
+    state=latest
   tags:
-    - yum
-    - yum-baseline
+    - yum-update
 
-- name: yum | update all software packages
-  yum: name=* state=latest
+- name: packages | install minimum package set
+  yum: >
+    name={{item}}
+    state=latest
+  with_items: "{{ role_packages_install_list }}"
   tags:
-    - yum
-    - slow
+    - yum-packages
 
-- name: yum | setup daily yum security updates
-  copy: src=etc/cron.daily/yumupdate.sh dest=/etc/cron.daily/yumupdate.sh owner=root group=root mode=755
+- name: packages | install yum-plugin-security for auto security updates
+  yum: >
+    name=yum-plugin-security
+    state=latest
   tags:
-    - yum
+    - yum-security-updates
 
-- name: vim | set system-wide vimrc file
-  copy: src=etc/vimrc dest=/etc/vimrc owner=root group=root mode=0544
-  tags: 
-    - package-config
-    - vim
-    - vimrc
-
-- name: postfix | install SASL authentication libraries
-  yum: name=cyrus-sasl-plain state=present
-  tags: 
-    - package-config
-    - postfix
-
-- name: mutt | set configuration file
-  template: src=etc/Muttrc.local.j2 dest=/etc/Muttrc.local owner=root group=root mode=0544
+- name: packages | configure daily security updates
+  copy: >
+    src=etc/cron.daily/yumupdate.sh
+    dest=/etc/cron.daily/yumupdate.sh
+    owner=root
+    group=root
+    mode=0755
   tags:
-    - package-config
-    - mutt
-    - muttrc
+    - yum-security-updates
