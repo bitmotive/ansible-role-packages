@@ -14,6 +14,21 @@ Role Variables
 
 __role\_packages\_install\_list__: an array of packages to be installed via yum.
 
+```
+role_packages_install_list: [
+'sudo',
+'man',
+'vim',
+'tmux',
+'python',
+'mlocate',
+'htop',
+'jnettop',
+'logwatch',
+'wget'
+]
+```
+
 Dependencies
 ------------
 
