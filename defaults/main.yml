@@ -3,14 +3,15 @@
 
 # Override this variable with list of packages to be installed
 role_packages_install_list: [
+'epel-release',
 'sudo',
 'man',
 'vim',
 'tmux',
-'python',
 'mlocate',
 'htop',
 'jnettop',
 'logwatch',
-'wget'
+'wget',
+'python'
 ]
